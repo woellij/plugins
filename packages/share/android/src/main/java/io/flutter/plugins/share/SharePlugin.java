@@ -50,7 +50,7 @@ public class SharePlugin implements MethodChannel.MethodCallHandler {
               (String) call.argument("mimeType"),
               (String) call.argument("subject"),
               (String) call.argument("text"),
-                  (String) call.argument["fileProvider"]);
+                  (String) call.argument("fileProvider"));
           result.success(null);
         } catch (IOException e) {
           result.error(e.getMessage(), null, null);
