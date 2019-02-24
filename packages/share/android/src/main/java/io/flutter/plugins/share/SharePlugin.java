@@ -49,7 +49,8 @@ public class SharePlugin implements MethodChannel.MethodCallHandler {
               (String) call.argument("path"),
               (String) call.argument("mimeType"),
               (String) call.argument("subject"),
-              (String) call.argument("text"));
+              (String) call.argument("text"),
+                  (String) call.argument["fileProvider"]);
           result.success(null);
         } catch (IOException e) {
           result.error(e.getMessage(), null, null);
@@ -85,7 +86,7 @@ public class SharePlugin implements MethodChannel.MethodCallHandler {
     }
   }
 
-  private void shareFile(String path, String mimeType, String subject, String text)
+  private void shareFile(String path, String mimeType, String subject, String text, String fileProvider)
       throws IOException {
     if (path == null || path.isEmpty()) {
       throw new IllegalArgumentException("Non-empty path expected");
@@ -97,10 +98,14 @@ public class SharePlugin implements MethodChannel.MethodCallHandler {
       file = copyToExternalShareFolder(file);
     }
 
+    if(fileProvider == null){
+      fileProvider = "flutter.share_provider";
+    }
+
     Uri fileUri =
         FileProvider.getUriForFile(
             mRegistrar.context(),
-            mRegistrar.context().getPackageName() + ".flutter.share_provider",
+            mRegistrar.context().getPackageName() + "." + fileProvider,
             file);
 
     Intent shareIntent = new Intent();

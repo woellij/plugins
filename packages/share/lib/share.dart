@@ -64,12 +64,14 @@ class Share {
       {String mimeType,
       String subject,
       String text,
+        String fileProvider,
       Rect sharePositionOrigin}) {
     assert(file != null);
     assert(file.existsSync());
     final Map<String, dynamic> params = <String, dynamic>{
       'path': file.path,
       'mimeType': mimeType ?? _mimeTypeForFile(file),
+      'fileProvider': fileProvider
     };
 
     if (subject != null) params['subject'] = subject;
